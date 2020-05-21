@@ -31,7 +31,7 @@ function getLastpage() {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
       var lastElement = responses[0][responses[0].length - 1];
-        rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
+        rankInfo = `${lastElement.leaguePoints}LP is current rank 300 challenger.`;
 
       chals = chals.concat(responses[0]);
 
@@ -118,7 +118,7 @@ function getCutoff() {
   sortByKey(GM_CHAL, "lp");
 
   const cut = GM_CHAL[299].lp+1;
-  rankInfo += ` ${cut}LP needed for rank 300 challenger. PauseChamp `;
+  rankInfo += ` ${cut}LP needed for rank 300 challenger for next ladder update. PauseChamp `;
   last_time = new Date();
   console.log(rankInfo);
 
