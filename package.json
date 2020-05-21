@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "date-fns": "^2.14.0",
+    "date-fns-tz": "^1.0.10",
     "dotenv": "^8.2.0",
+    "moment": "^2.26.0",
+    "moment-timezone": "^0.5.31",
     "riot-lol-api": "^4.3.2",
     "tmi.js": "^1.5.0"
   }

@@ -141,7 +141,7 @@ const client = new tmi.Client({
     reconnect: true,
   },
   identity: {
-    username: "radiqall",
+    username: "t1challanger",
     password: `${process.env.TWITCH_PASS}`,
   },
   channels: ["#spectatetyler1"],
