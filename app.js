@@ -64,20 +64,23 @@ const client = new tmi.Client({
     reconnect: true,
   },
   identity: {
-    username: "t1challanger",
-    password: "oauth:qo5pwu088bk9evi3vvv6gb4s35iiyz",
+    username: "radiqall",
+    password: `${process.env.TWITCH_PASS}`,
   },
-  channels: ["t1challanger"],
+  channels: ["#spectatetyler1"],
 });
 
 client.connect();
-var substring = "@radiqall challenger?";
+var substring = "!challenger";
+console.log(client.getOptions());
 client.on("chat", (channel, user, message, self) => {
   // Ignore echoed messages.
   if (self) return;
-  if (message.indexOf(substring) !== -1) {
-	  let current_time = new Date();
-	var seconds = (current_time.getTime() - last_time.getTime()) / 1000;
-    client.action("t1challanger", `@${user.username} ${rankInfo} Updated ${Math.trunc(seconds)} seconds ago`);
+  if (message.toLowerCase().indexOf(substring) !== -1) {
+	  setTimeout(() => {
+		let current_time = new Date();
+		var seconds = (current_time.getTime() - last_time.getTime()) / 1000;
+		client.say("spectateTyler1", `@${user.username} ${rankInfo} Updated ${Math.trunc(seconds)} seconds ago`);
+	  }, 1000);
   }
 });
