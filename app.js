@@ -2,17 +2,26 @@ const tmi = require("tmi.js");
 require("dotenv").config();
 var https = require("https");
 var http = require("http");
+var fs = require("fs");
 
-const URL =
+const URLLOW =
   "https://na1.api.riotgames.com/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I?page=2";
+const URLHIGH =
+  "https://na1.api.riotgames.com/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I?page=1";
 const GMURL =
   "https://na1.api.riotgames.com/lol/league-exp/v4/entries/RANKED_SOLO_5x5/GRANDMASTER/I?page=1";
 const api = `&api_key=${process.env.RIOT_KEY}`;
 let rankInfo = "";
 let last_time;
-function getRank300() {
+
+let chals = [];
+let challengers = [];
+let gms = [];
+let gmas = [];
+function getLastpage() {
+  challengers = [];
   const responses = [];
-  https.get(URL + api, (res) => {
+  https.get(URLLOW + api, (res) => {
     var chunks = [];
     res.on("data", function (chunk) {
       chunks.push(chunk);
@@ -21,21 +30,57 @@ function getRank300() {
     res.on("end", function (chunk) {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
-      //   console.log("Console Log: : responses", responses);
       var lastElement = responses[0][responses[0].length - 1];
-      rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
+      //   rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
+
+      chals = chals.concat(responses[0]);
+
+      chals.map((chal, index) => {
+        challengers.push({
+          rank: index + 1,
+          lp: chal.leaguePoints,
+          summoner: chal.summonerName,
+        });
+      });
+      /* fs.writeFile("result.json", JSON.stringify(challengers), function (err) {
+        if (err) throw err;
+        console.log("Saved!");
+      }); */
       getTopGM();
-      setTimeout(() => {
-        getRank300();
-      }, 120000);
     });
     res.on("error", function (error) {
       console.error(error);
     });
   });
 }
-getRank300();
+
+function getFirstPage() {
+  chals = [];
+  const responses = [];
+  https.get(URLHIGH + api, (res) => {
+    var chunks = [];
+    res.on("data", function (chunk) {
+      chunks.push(chunk);
+    });
+
+    res.on("end", function (chunk) {
+      var body = Buffer.concat(chunks);
+      responses.push(JSON.parse(body));
+      var lastElement = responses[0][responses[0].length - 1];
+        rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
+      chals = responses[0];
+
+      getLastpage();
+    });
+    res.on("error", function (error) {
+      console.error(error);
+    });
+  });
+}
+
 function getTopGM() {
+  gms = [];
+  gmas = [];
   const responses = [];
   https.get(GMURL + api, (res) => {
     var chunks = [];
@@ -47,8 +92,20 @@ function getTopGM() {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
       var lastElement = responses[0][0];
-      rankInfo += ` Highest GM : ${lastElement.leaguePoints}LP.`;
+      //   rankInfo += ` Highest GM : ${lastElement.leaguePoints}LP.`;
       last_time = new Date();
+
+      gms = responses[0];
+
+      gms.map((gm, index) => {
+        gmas.push({
+          rank: index + 1,
+          lp: gm.leaguePoints,
+          summoner: gm.summonerName,
+        });
+      });
+
+      getCutoff();
     });
 
     res.on("error", function (error) {
@@ -56,7 +113,27 @@ function getTopGM() {
     });
   });
 }
+function getCutoff() {
+  let GM_CHAL = challengers.concat(gmas);
+  sortByKey(GM_CHAL, "lp");
 
+  const cut = GM_CHAL[298].lp;
+  rankInfo += ` T1 Needs to have ${cut}LP be challanger. PauseChamp `;
+  last_time = new Date();
+  console.log(rankInfo);
+
+  setTimeout(() => {
+    getFirstPage();
+  }, 120000);
+}
+getFirstPage();
+function sortByKey(array, key) {
+  return array.sort(function (a, b) {
+    var x = a[key];
+    var y = b[key];
+    return x > y ? -1 : x < y ? 1 : 0;
+  });
+}
 const client = new tmi.Client({
   options: { debug: true },
   connection: {
@@ -84,3 +161,4 @@ client.on("chat", (channel, user, message, self) => {
 	  }, 1000);
   }
 });
+
