@@ -118,7 +118,7 @@ function getCutoff() {
   sortByKey(GM_CHAL, "lp");
 
   const cut = GM_CHAL[299].lp+1;
-  rankInfo += ` Cutoff = ${cut}LP. PauseChamp `;
+  rankInfo += ` ${cut}LP needed for rank 300 challenger. PauseChamp `;
   last_time = new Date();
   console.log(rankInfo);
 
@@ -161,4 +161,3 @@ client.on("chat", (channel, user, message, self) => {
 	  }, 1000);
   }
 });
-
