@@ -118,7 +118,7 @@ function getCutoff() {
   sortByKey(GM_CHAL, "lp");
 
   const cut = GM_CHAL[298].lp;
-  rankInfo += ` T1 Needs to have ${cut}LP be challanger. PauseChamp `;
+  rankInfo += ` T1 Needs to have ${cut}LP to be challanger. PauseChamp `;
   last_time = new Date();
   console.log(rankInfo);
 
