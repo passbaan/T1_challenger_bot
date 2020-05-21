@@ -31,7 +31,7 @@ function getLastpage() {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
       var lastElement = responses[0][responses[0].length - 1];
-      //   rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
+        rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
 
       chals = chals.concat(responses[0]);
 
@@ -67,7 +67,7 @@ function getFirstPage() {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
       var lastElement = responses[0][responses[0].length - 1];
-        rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
+        // rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
       chals = responses[0];
 
       getLastpage();
