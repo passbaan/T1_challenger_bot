@@ -31,7 +31,7 @@ function getLastpage() {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
       var lastElement = responses[0][responses[0].length - 1];
-        rankInfo = `${lastElement.leaguePoints}LP is current rank 300 challenger.`;
+        rankInfo = `${lastElement.leaguePoints}LP is lowest challenger but...`;
 
       chals = chals.concat(responses[0]);
 
