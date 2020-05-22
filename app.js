@@ -13,7 +13,7 @@ const GMURL =
 const api = `&api_key=${process.env.RIOT_KEY}`;
 let rankInfo = "";
 let last_time;
-const refreshDelay = 10;
+const seconds = 60;
 let chals = [];
 let challengers = [];
 let gms = [];
@@ -54,7 +54,7 @@ function getLastpage() {
 }
 
 function getFirstPage() {
-  rankInfo ="";
+  rankInfo = "";
   chals = [];
   const responses = [];
   https.get(URLHIGH + api, (res) => {
@@ -128,9 +128,10 @@ function getCutoff() {
   }); */
   setTimeout(() => {
     getFirstPage();
-  }, 30000); 
+  }, seconds * 1000);
 }
 getFirstPage();
+setTimeout(() => {}, 5000);
 function sortByKey(array, key) {
   return array.sort(function (a, b) {
     var x = a[key];
@@ -138,30 +139,37 @@ function sortByKey(array, key) {
     return x > y ? -1 : x < y ? 1 : 0;
   });
 }
-const client = new tmi.Client({
-  options: { debug: true },
-  connection: {
-    secure: true,
-    reconnect: true,
-  },
-  identity: {
-    username: "t1challanger",
-    password: `${process.env.TWITCH_PASS}`,
-  },
-  channels: ["#spectatetyler1"],
-});
+setTimeout(() => {
+  const client = new tmi.Client({
+    options: { debug: true },
+    connection: {
+      secure: true,
+      reconnect: true,
+    },
+    identity: {
+      username: "ChallengerPolice",
+      password: `${process.env.TWITCH_PASS}`,
+    },
+    channels: ["#spectatetyler1"],
+  });
 
-client.connect();
-var substring = "!challenger";
-console.log(client.getOptions());
-client.on("chat", (channel, user, message, self) => {
-  // Ignore echoed messages.
-  if (self) return;
-  if (message.toLowerCase().indexOf(substring) !== -1) {
-	  setTimeout(() => {
-		let current_time = new Date();
-		var seconds = (current_time.getTime() - last_time.getTime()) / 1000;
-		client.say("spectateTyler1", `@${user.username} ${rankInfo} Updated ${Math.trunc(seconds)} seconds ago`);
-	  }, 1000);
-  }
-});
+  client.connect();
+  var substring = "!test_string_new_account_challenger";
+  console.log(client.getOptions());
+  client.on("chat", (channel, user, message, self) => {
+    // Ignore echoed messages.
+    if (self) return;
+    if (message.toLowerCase().indexOf(substring) !== -1) {
+      setTimeout(() => {
+        let current_time = new Date();
+        var seconds = (current_time.getTime() - last_time.getTime()) / 1000;
+        client.say(
+          "spectateTyler1",
+          `@${user.username} ${rankInfo} Updated ${Math.trunc(
+            seconds
+          )} seconds ago`
+        );
+      }, 1000);
+    }
+  });
+}, 5000);
