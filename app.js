@@ -138,7 +138,7 @@ function sortByKey(array, key) {
     return x > y ? -1 : x < y ? 1 : 0;
   });
 }
-const client = new tmi.Client({
+/* const client = new tmi.Client({
   options: { debug: true },
   connection: {
     secure: true,
@@ -164,4 +164,4 @@ client.on("chat", (channel, user, message, self) => {
 		client.say("spectateTyler1", `@${user.username} ${rankInfo} Updated ${Math.trunc(seconds)} seconds ago`);
 	  }, 1000);
   }
-});
+}); */
