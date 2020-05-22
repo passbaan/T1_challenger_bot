@@ -13,7 +13,7 @@ const GMURL =
 const api = `&api_key=${process.env.RIOT_KEY}`;
 let rankInfo = "";
 let last_time;
-
+const refreshDelay = 3;
 let chals = [];
 let challengers = [];
 let gms = [];
@@ -31,7 +31,7 @@ function getLastpage() {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
       var lastElement = responses[0][responses[0].length - 1];
-      rankInfo = `${lastElement.leaguePoints}LP is lowest challenger but...`;
+      // rankInfo = `${lastElement.leaguePoints}LP is lowest challenger but...`;
 
       chals = chals.concat(responses[0]);
 
@@ -117,13 +117,16 @@ function getCutoff() {
   sortByKey(GM_CHAL, "lp");
 
   const cut = GM_CHAL[299].lp + 1;
-  rankInfo += ` ${cut}LP needed to overtake current rank 300 contender for next ladder update. ResidentSleeper `;
+  rankInfo += ` ${cut}LP needed to overtake current rank 300 contender for next ladder update at 11:45pm PST. ResidentSleeper `;
   last_time = new Date();
   console.log(rankInfo);
-  fs.writeFile("result.json", JSON.stringify(GM_CHAL), function (err) {
+  /* fs.writeFile("result.json", JSON.stringify(GM_CHAL), function (err) {
     if (err) throw err;
     console.log("Saved!");
-  });
+  }); */
+  setTimeout(() => {
+    getFirstPage();
+  }, refreshDelay*10000); 
 }
 getFirstPage();
 function sortByKey(array, key) {
