@@ -13,7 +13,7 @@ const GMURL =
 const api = `&api_key=${process.env.RIOT_KEY}`;
 let rankInfo = "";
 let last_time;
-const refreshDelay = 3;
+const refreshDelay = 10;
 let chals = [];
 let challengers = [];
 let gms = [];
@@ -54,7 +54,7 @@ function getLastpage() {
 }
 
 function getFirstPage() {
-  rank_info ="";
+  rankInfo ="";
   chals = [];
   const responses = [];
   https.get(URLHIGH + api, (res) => {
@@ -128,7 +128,7 @@ function getCutoff() {
   }); */
   setTimeout(() => {
     getFirstPage();
-  }, refreshDelay*10000); 
+  }, refreshDelay*1000); 
 }
 getFirstPage();
 function sortByKey(array, key) {
