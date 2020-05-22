@@ -18,6 +18,7 @@ let chals = [];
 let challengers = [];
 let gms = [];
 let gmas = [];
+lowestChal = "";
 function getLastpage() {
   challengers = [];
   const responses = [];
@@ -32,7 +33,7 @@ function getLastpage() {
       responses.push(JSON.parse(body));
       var lastElement = responses[0][responses[0].length - 1];
       // rankInfo = `${lastElement.leaguePoints}LP is lowest challenger but...`;
-
+      lowestChal = lastElement.leaguePoints;
       chals = chals.concat(responses[0]);
 
       chals.map((chal, index) => {
@@ -65,7 +66,7 @@ function getFirstPage() {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
       var lastElement = responses[0][responses[0].length - 1];
-      // rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
+      rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
       chals = responses[0];
 
       getLastpage();
@@ -117,7 +118,7 @@ function getCutoff() {
   sortByKey(GM_CHAL, "lp");
 
   const cut = GM_CHAL[299].lp + 1;
-  rankInfo += ` ${cut}LP needed to overtake current rank 300 contender for next ladder update at 11:45pm PST. ResidentSleeper `;
+  rankInfo += ` ${cut}LP needed to overtake current rank 300 contender for next ladder update at 11:45pm PST. P.S. Lowest Chal: ${lowestChal}`;
   last_time = new Date();
   console.log(rankInfo);
   /* fs.writeFile("result.json", JSON.stringify(GM_CHAL), function (err) {
@@ -163,4 +164,3 @@ client.on("chat", (channel, user, message, self) => {
 	  }, 1000);
   }
 });
-
