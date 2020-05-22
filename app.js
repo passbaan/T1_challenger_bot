@@ -154,7 +154,7 @@ setTimeout(() => {
   });
 
   client.connect();
-  var substring = "!test_string_new_account_challenger";
+  var substring = "!challenger";
   console.log(client.getOptions());
   client.on("chat", (channel, user, message, self) => {
     // Ignore echoed messages.
