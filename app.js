@@ -54,6 +54,7 @@ function getLastpage() {
 }
 
 function getFirstPage() {
+  rank_info ="";
   chals = [];
   const responses = [];
   https.get(URLHIGH + api, (res) => {
@@ -118,7 +119,7 @@ function getCutoff() {
   sortByKey(GM_CHAL, "lp");
 
   const cut = GM_CHAL[299].lp + 1;
-  rankInfo += ` ${cut}LP needed to overtake current rank 300 contender for next ladder update at 11:45pm PST. P.S. Lowest Chal: ${lowestChal}`;
+  rankInfo += ` ${cut}LP needed to overtake current rank 300 contender for ladder update at 11:45pm PST. Lowest Chal: ${lowestChal}LP`;
   last_time = new Date();
   console.log(rankInfo);
   /* fs.writeFile("result.json", JSON.stringify(GM_CHAL), function (err) {
