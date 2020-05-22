@@ -31,7 +31,7 @@ function getLastpage() {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
       var lastElement = responses[0][responses[0].length - 1];
-        rankInfo = `${lastElement.leaguePoints}LP is lowest challenger but...`;
+      rankInfo = `${lastElement.leaguePoints}LP is lowest challenger but...`;
 
       chals = chals.concat(responses[0]);
 
@@ -40,12 +40,10 @@ function getLastpage() {
           rank: index + 1,
           lp: chal.leaguePoints,
           summoner: chal.summonerName,
+          tier: chal.tier,
         });
       });
-      /* fs.writeFile("result.json", JSON.stringify(challengers), function (err) {
-        if (err) throw err;
-        console.log("Saved!");
-      }); */
+
       getTopGM();
     });
     res.on("error", function (error) {
@@ -67,7 +65,7 @@ function getFirstPage() {
       var body = Buffer.concat(chunks);
       responses.push(JSON.parse(body));
       var lastElement = responses[0][responses[0].length - 1];
-        // rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
+      // rankInfo = `Lowest Challenger: ${lastElement.leaguePoints}LP.`;
       chals = responses[0];
 
       getLastpage();
@@ -102,6 +100,7 @@ function getTopGM() {
           rank: index + 1,
           lp: gm.leaguePoints,
           summoner: gm.summonerName,
+          tier: gm.tier,
         });
       });
 
@@ -117,14 +116,14 @@ function getCutoff() {
   let GM_CHAL = challengers.concat(gmas);
   sortByKey(GM_CHAL, "lp");
 
-  const cut = GM_CHAL[299].lp+1;
-  rankInfo += ` ${cut}LP needed for rank 300 challenger for next ladder update. PauseChamp `;
+  const cut = GM_CHAL[299].lp + 1;
+  rankInfo += ` ${cut}LP needed to overtake current rank 300 contender for next ladder update. ResidentSleeper `;
   last_time = new Date();
   console.log(rankInfo);
-
-  setTimeout(() => {
-    getFirstPage();
-  }, 120000);
+  fs.writeFile("result.json", JSON.stringify(GM_CHAL), function (err) {
+    if (err) throw err;
+    console.log("Saved!");
+  });
 }
 getFirstPage();
 function sortByKey(array, key) {
@@ -141,7 +140,7 @@ const client = new tmi.Client({
     reconnect: true,
   },
   identity: {
-    username: "t1challanger",
+    username: "radiqall",
     password: `${process.env.TWITCH_PASS}`,
   },
   channels: ["#spectatetyler1"],
@@ -161,3 +160,4 @@ client.on("chat", (channel, user, message, self) => {
 	  }, 1000);
   }
 });
+
