@@ -128,7 +128,7 @@ function getCutoff() {
   }); */
   setTimeout(() => {
     getFirstPage();
-  }, refreshDelay*1000); 
+  }, 30000); 
 }
 getFirstPage();
 function sortByKey(array, key) {
