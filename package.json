@@ -1,18 +1,20 @@
 {
   "name": "bot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "forever":"forever start app.js",
-    "stop":"forever stop app.js"
+    "forever": "forever start app.js",
+    "stop": "forever stop app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
+    "datejs": "^1.0.0-rc3",
     "dotenv": "^8.2.0",
     "riot-lol-api": "^4.3.2",
     "tmi.js": "^1.5.0"

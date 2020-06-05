@@ -1,0 +1,19 @@
+(node:2517) Warning: Accessing non-existent property 'padLevels' of module exports inside circular dependency
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  options: { debug: true },
+  connection: { secure: true, reconnect: true },
+  identity: {
+    username: 'ChallengerPolice',
+    password: 'oauth:amm3jea1rek7vtmbg44pegbpvdfvqi'
+  },
+  channels: [ '#spectatetyler1' ]
+}
+[23:23] info: Connecting to irc-ws.chat.twitch.tv on port 443..
+[23:23] info: Sending authentication to server..
+[23:23] info: Connected to server.
+[23:23] info: Executing command: JOIN #spectatetyler1
+[23:23] info: [#spectatetyler1] Now hosting loltyler1 for 0 viewer(s).
+[23:23] info: Joined #spectatetyler1
+[23:25] info: [#spectatetyler1] <t1challanger>: !jg 󠀀
+error: Forever detected script was killed by signal: SIGKILL
