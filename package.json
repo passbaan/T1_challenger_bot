@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "datejs": "^1.0.0-rc3",
     "dotenv": "^8.2.0",
     "riot-lol-api": "^4.3.2",
